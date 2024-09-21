@@ -33,7 +33,7 @@ def roll_initiative(characters):
 characters = [
     {'name': 'Aragorn', 'dexterity_modifier': 3},
     {'name': 'Legolas', 'dexterity_modifier': 5},
-    {'name': 'Gimli', 'dexterity_modifier': 2},
+    {'name': 'Gimli', 'dexterity_modifier': -1},
     {'name': 'Frodo', 'dexterity_modifier': 4},
     {'name': 'Gandalf', 'dexterity_modifier': 2, 
      'gift_of_alacrity': True}

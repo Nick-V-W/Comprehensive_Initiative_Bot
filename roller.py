@@ -29,7 +29,19 @@ def roll_initiative(characters):
     initiative_results.sort(key=lambda x: x['roll'], reverse=True)
 
     return initiative_results
-
+#these are examples for characters and monsters
+characters = [
+    {'name': 'Aragorn', 'dexterity_modifier': 3},
+    {'name': 'Legolas', 'dexterity_modifier': 5},
+    {'name': 'Gimli', 'dexterity_modifier': 2},
+    {'name': 'Frodo', 'dexterity_modifier': 4},
+    {'name': 'Gandalf', 'dexterity_modifier': 2, 
+     'gift_of_alacrity': True}
+    
+]
+monsters = [
+    {'name': 'Goblin', 'dexterity_modifier': 2}
+]
 # Roll initiative for all characters
 initiative_order = roll_initiative(characters + monsters)
 

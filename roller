@@ -16,7 +16,7 @@ def roll_initiative(characters):
 
     for character in characters:
         name = character['name']
-        dex_mod = character['initiative_modifier']
+        dex_mod = character['dexterity_modifier']
         advantage_state = character.get('advantage_state', None)
         gift_of_alacrity = character.get('gift_of_alacrity', False)
         roll = roll_d20(advantage_state)

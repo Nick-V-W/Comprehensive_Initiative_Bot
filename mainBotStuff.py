@@ -31,27 +31,25 @@ async def on_message(message):
         await message.channel.send('fuck you >:(')
 
     # configure the server name and read/load data channel for the bot
-    if message.content.startswith('$divine'):
+    if message.content.startswith('$divine '):
         global main_server
         global configured
         msg = message.content
-        info = msg.replace('$divine$', '').split('$')
-        if len(info) != 2:
-            await message.channel.send('I can\'t read that silly!! Please $divine using the following form:')
-            await message.channel.send('$divine$Name Of Server$Name of PC Channel')
+        channel_name = msg.replace('$divine ', '')
+        # TODO comment better!
+        main_server = Server(client.get_guild(message.guild.id), channel_name, message.guild.id)
+        if main_server.get_channel() == -1:
+            await message.channel.send('Channel named: `' + channel_name + "` not found!")
+            await message.channel.send('Please $divine again with existing channel')
         else:
-            server, channel = info.pop(0), info.pop(0)
-            main_server = Server(server, channel)
-            await message.channel.send('Will read future PC info from the ' + channel + ' channel in the ' + server + ' server')
+            await message.channel.send('Will read future PC info from the ' + channel_name + ' channel')
             await message.channel.send('Please $divine again if this is incorrect')
             configured = True
-
 
     if message.content.startswith('$gather party'):
         if configured:
             await GetDiscordInfo.getparty(guild, message.author.name, main_server.get_channel())
         else:
             await message.channel.send('Please configure me using $divine!')
-
 
 client.run(TOKEN)

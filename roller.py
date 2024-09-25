@@ -61,4 +61,5 @@ for result in sorted_initiative:
 headers = ["Name", "Raw Roll", "Initiative"]
 
     # Print table using tabulate
-print("```ansi\n",tabulate(table_init, headers=headers, tablefmt="pretty"),"```")
+table_init = tabulate(table_data, headers=headers, tablefmt="pretty")
+print(f"```ansi\n{table_init}\n```")

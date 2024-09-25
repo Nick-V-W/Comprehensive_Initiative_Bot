@@ -1,4 +1,5 @@
 import random
+from tabulate import tabulate
 
 def roll_d20(advantage_state=None):
     roll1 = random.randint(1, 20)
@@ -29,7 +30,8 @@ def roll_initiative(characters):
     initiative_results.sort(key=lambda x: x['roll'], reverse=True)
 
     return initiative_results
-#these are examples for characters and monsters
+
+# Example list of characters with Dexterity modifiers
 characters = [
     {'name': 'Aragorn', 'dexterity_modifier': 3},
     {'name': 'Legolas', 'dexterity_modifier': 5},
@@ -46,5 +48,17 @@ monsters = [
 initiative_order = roll_initiative(characters + monsters)
 
 # Print out the initiative order
-for i, result in enumerate(initiative_order, start=1):
-    print(f"{i}. {result['name']} - Initiative Roll: {result['roll']} (Raw Roll: {result['raw_roll']})")
+
+
+sorted_initiative = sorted(initiative_order, key=lambda x: x['roll'], reverse=True)
+
+# Prepare data for tabulation
+table_init = []
+for result in sorted_initiative:
+    row = [result['name'], result['raw_roll'], result['roll']]
+    table_init.append(row)
+    
+headers = ["Name", "Raw Roll", "Initiative"]
+
+    # Print table using tabulate
+print("```ansi\n",tabulate(table_init, headers=headers, tablefmt="pretty"),"```")

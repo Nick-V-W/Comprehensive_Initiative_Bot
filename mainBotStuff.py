@@ -13,8 +13,8 @@ intents.members = True
 
 client = discord.Client(intents=intents)
 
+servers = {}
 global main_server
-configured = False
 
 @client.event
 async def on_ready():
@@ -23,32 +23,45 @@ async def on_ready():
 @client.event
 async def on_message(message):
     guild = message.channel.guild
+    server_id = message.guild.id
+    message_content = message.content
+    server = servers.get(server_id)
 
     if message.author == client.user:
         return
 
-    if message.content.startswith('$hello'):
+    if message_content.startswith('$hello'):
         await message.channel.send('fuck you >:(')
 
     # configure the server name and read/load data channel for the bot
-    if message.content.startswith('$divine '):
+    if message_content.startswith('$divine '):
         global main_server
-        global configured
         msg = message.content
         channel_name = msg.replace('$divine ', '')
+
         # TODO comment better!
-        main_server = Server(client.get_guild(message.guild.id), channel_name, message.guild.id)
+
+        # if the server id already exists, make sure to remove the existing value from the dictionary to start clean
+        if server is not None:
+            servers.pop(server_id)
+
+        # add server the message is from to dictionary in a "server_id" : "server_object" pair
+        main_server = Server(client.get_guild(server_id), channel_name, server_id)
+        servers.update({server_id: main_server})
+
+        # if the name of the channel isn't found,
         if main_server.get_channel() == -1:
             await message.channel.send('Channel named: `' + channel_name + "` not found!")
             await message.channel.send('Please $divine again with existing channel')
         else:
             await message.channel.send('Will read future PC info from the ' + channel_name + ' channel')
             await message.channel.send('Please $divine again if this is incorrect')
-            configured = True
 
-    if message.content.startswith('$gather party'):
-        if configured:
-            await GetDiscordInfo.getparty(guild, message.author.name, main_server.get_channel())
+    if message_content.startswith('$gather party'):
+        # make sure valid server and channel exists
+        if server is not None and server.get_channel() != -1 :
+            await message.channel.send('Gathering party...')
+            # await GetDiscordInfo.getparty(guild, message.author.name, server.get_channel())
         else:
             await message.channel.send('Please configure me using $divine!')
 

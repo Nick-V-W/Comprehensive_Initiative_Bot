@@ -8,7 +8,6 @@ async def getmsg(ctx, channel: discord.TextChannel, member: discord.Member):
     msg = discord.utils.get(await channel.history(limit=100).flatten, author=member)
     print(msg + '<--- LMAO' )
 
-
 # collect users in server
 async def getparty(guild, author, channel):
     async for member in guild.fetch_members(limit=150):

@@ -53,10 +53,10 @@ initiative_order = roll_initiative(characters + monsters)
 sorted_initiative = sorted(initiative_order, key=lambda x: x['roll'], reverse=True)
 
 # Prepare data for tabulation
-table_init = []
+table_data = []
 for result in sorted_initiative:
     row = [result['name'], result['raw_roll'], result['roll']]
-    table_init.append(row)
+    table_data.append(row)
     
 headers = ["Name", "Raw Roll", "Initiative"]
 
